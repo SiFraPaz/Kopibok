@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kopibok Nord-Odal 1846</title>
+<meta name="description" content="Digitale Transkription: Kopibok for Nord-Odal fattigstyre, 1846–1884, Seite 1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4efe4;
+    --surface: #fbf8f1;
+    --ink: #2b2620;
+    --ink-soft: #6b6155;
+    --rule: #ddd3c1;
+    --accent: #8a3b1f;
+    --accent-soft: rgba(138, 59, 31, 0.10);
+    --hl-fill: rgba(196, 120, 40, 0.20);
+    --hl-stroke: #b5651d;
+    --show-fill: rgba(70, 110, 160, 0.07);
+    --show-stroke: rgba(70, 110, 160, 0.45);
+    --unc: #9a6a00;
+    --tip-bg: #2b2620;
+    --tip-ink: #fbf8f1;
+    --viewer-bg: #1d1a16;
+    --shadow: 0 1px 2px rgba(40,30,20,.08), 0 8px 24px rgba(40,30,20,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17140f;
+      --surface: #201c16;
+      --ink: #ece4d4;
+      --ink-soft: #a89c89;
+      --rule: #3a332a;
+      --accent: #e0956b;
+      --accent-soft: rgba(224, 149, 107, 0.12);
+      --hl-fill: rgba(230, 160, 70, 0.24);
+      --hl-stroke: #f0a650;
+      --show-fill: rgba(130, 170, 220, 0.08);
+      --show-stroke: rgba(130, 170, 220, 0.5);
+      --unc: #e3b450;
+      --tip-bg: #ece4d4;
+      --tip-ink: #1d1a16;
+      --viewer-bg: #0e0c0a;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17140f;
+    --surface: #201c16;
+    --ink: #ece4d4;
+    --ink-soft: #a89c89;
+    --rule: #3a332a;
+    --accent: #e0956b;
+    --accent-soft: rgba(224, 149, 107, 0.12);
+    --hl-fill: rgba(230, 160, 70, 0.24);
+    --hl-stroke: #f0a650;
+    --show-fill: rgba(130, 170, 220, 0.08);
+    --show-stroke: rgba(130, 170, 220, 0.5);
+    --unc: #e3b450;
+    --tip-bg: #ece4d4;
+    --tip-ink: #1d1a16;
+    --viewer-bg: #0e0c0a;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Source Sans 3", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  header.site {
+    padding: 28px 24px 18px;
+    border-bottom: 1px solid var(--rule);
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin: 0 0 6px;
+  }
+  h1 {
+    font-family: "EB Garamond", Georgia, serif;
+    font-weight: 500; font-size: clamp(26px, 4vw, 38px);
+    line-height: 1.15; margin: 0 0 6px;
+  }
+  .sig { color: var(--ink-soft); font-size: 14px; margin: 0; }
+
+  .toolbar {
+    display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center;
+    max-width: 1600px; margin: 0 auto; padding: 12px 24px;
+    font-size: 14px; color: var(--ink-soft);
+  }
+  .toolbar .group { display: flex; gap: 6px; align-items: center; }
+  button, .toggle {
+    font: inherit; font-size: 14px; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--rule);
+    border-radius: 6px; padding: 5px 11px; cursor: pointer;
+  }
+  button:hover { border-color: var(--accent); }
+  button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .toolbar .hint { margin-left: auto; }
+
+  main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(320px, 1fr);
+    gap: 20px;
+    max-width: 1600px; margin: 0 auto; padding: 0 24px 40px;
+    align-items: start;
+  }
+
+  /* --- Bildbetrachter --- */
+  .viewer {
+    background: var(--viewer-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: auto;
+    max-height: calc(100vh - 40px);
+    position: sticky; top: 20px;
+  }
+  .stage { position: relative; width: 100%; transition: width .2s ease; }
+  .stage img { display: block; width: 100%; height: auto; user-select: none; -webkit-user-drag: none; }
+  .stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .stage rect.zone {
+    fill: transparent; stroke: transparent; stroke-width: 3;
+    cursor: pointer; transition: fill .12s, stroke .12s;
+  }
+  .stage.show-lines rect.zone { fill: var(--show-fill); stroke: var(--show-stroke); stroke-width: 1.5; }
+  .stage rect.zone.active { fill: var(--hl-fill); stroke: var(--hl-stroke); stroke-width: 3; }
+  .stage rect.zone.locked { fill: var(--hl-fill); stroke: var(--hl-stroke); stroke-width: 4; }
+
+  /* --- Tooltip --- */
+  .tip {
+    position: fixed; z-index: 20; pointer-events: none;
+    max-width: min(560px, calc(100vw - 32px));
+    background: var(--tip-bg); color: var(--tip-ink);
+    padding: 10px 14px; border-radius: 8px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.25);
+    font-family: "EB Garamond", Georgia, serif; font-size: 19px; line-height: 1.35;
+    opacity: 0; transform: translateY(4px); transition: opacity .1s, transform .1s;
+  }
+  .tip.on { opacity: 1; transform: none; }
+  .tip .meta {
+    display: block; font-family: "Source Sans 3", sans-serif;
+    font-size: 12px; letter-spacing: .04em; opacity: .7; margin-bottom: 3px;
+  }
+  .tip .note { display: block; font-family: "Source Sans 3", sans-serif; font-size: 13px; opacity: .8; margin-top: 5px; font-style: italic; }
+  .tip .unc, .tip .gap { color: inherit; opacity: .75; }
+
+  /* --- Lesefassung --- */
+  .reader {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 8px 0 16px;
+  }
+  .reader h2 {
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ink-soft); font-weight: 600; margin: 12px 20px 4px;
+  }
+  .entry { padding: 14px 20px 10px; border-top: 1px solid var(--rule); }
+  .entry:first-of-type { border-top: 0; }
+  .entry-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; margin-bottom: 4px; }
+  .entry-date { font-weight: 600; color: var(--accent); font-size: 14px; }
+  .entry-label { font-weight: 500; font-size: 14px; }
+  .regest { font-size: 14px; color: var(--ink-soft); margin: 0 0 8px; }
+  .lines { list-style: none; margin: 0; padding: 0; }
+  .lines li {
+    font-family: "EB Garamond", Georgia, serif; font-size: 18px; line-height: 1.4;
+    padding: 2px 8px; margin: 0 -8px; border-radius: 4px; cursor: pointer;
+    display: grid; grid-template-columns: 2.2em 1fr; gap: 6px;
+  }
+  .lines li .no { font-family: "Source Sans 3", sans-serif; font-size: 11px; color: var(--ink-soft); padding-top: 5px; text-align: right; }
+  .lines li:hover, .lines li.active { background: var(--accent-soft); }
+  .lines li.locked { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+  .lines li .note { display: block; font-family: "Source Sans 3", sans-serif; font-size: 12.5px; color: var(--ink-soft); font-style: italic; }
+  .lines li .margin { font-family: "Source Sans 3", sans-serif; font-size: 12px; color: var(--accent); margin-right: 6px; }
+
+  .unc { color: var(--unc); font-size: .78em; vertical-align: super; font-family: "Source Sans 3", sans-serif; }
+  .unc-word { border-bottom: 1px dotted var(--unc); }
+  .gap { color: var(--unc); font-family: "Source Sans 3", sans-serif; font-size: .85em; }
+  del { text-decoration-thickness: 1.5px; opacity: .7; }
+
+  .legend {
+    margin: 16px 20px 0; padding-top: 12px; border-top: 1px solid var(--rule);
+    font-size: 13px; color: var(--ink-soft);
+  }
+  .legend dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; margin: 6px 0 0; }
+  .legend dt { font-family: "EB Garamond", Georgia, serif; font-size: 16px; }
+  .legend dd { margin: 0; }
+
+  footer {
+    max-width: 1600px; margin: 0 auto; padding: 16px 24px 32px;
+    font-size: 13px; color: var(--ink-soft); border-top: 1px solid var(--rule);
+  }
+
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+    .viewer { position: relative; top: 0; max-height: 75vh; }
+    .toolbar .hint { margin-left: 0; width: 100%; }
+  }
+  @media (max-width: 520px) {
+    header.site, .toolbar, main, footer { padding-left: 16px; padding-right: 16px; }
+    .tip { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <p class="eyebrow">Digitale Edition · Probeseite</p>
+  <h1 id="title">Kopibok for Nord-Odal fattigstyre</h1>
+  <p class="sig" id="sig"></p>
+</header>
+
+<div class="toolbar">
+  <div class="group">
+    <button id="btnLines" aria-pressed="false">Zeilen anzeigen</button>
+  </div>
+  <div class="group" role="group" aria-label="Zoom">
+    <span>Zoom</span>
+    <button data-zoom="1" aria-pressed="true">100 %</button>
+    <button data-zoom="1.6" aria-pressed="false">160 %</button>
+    <button data-zoom="2.4" aria-pressed="false">240 %</button>
+  </div>
+  <div class="group">
+    <button id="btnTheme" title="Hell/Dunkel umschalten">Hell/Dunkel</button>
+  </div>
+  <span class="hint">Über eine Zeile im Bild fahren, um die Transkription zu sehen · Klick fixiert die Zeile</span>
+</div>
+
+<main>
+  <section class="viewer" id="viewer" aria-label="Digitalisat">
+    <div class="stage" id="stage">
+      <img id="scan" alt="Doppelseite: Vorsatz mit Titel „Copiebog“ und Seite 1 des Kopibuchs, Einträge 1846">
+      <svg id="overlay" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
+  </section>
+
+  <aside class="reader" id="reader" aria-label="Transkription">
+    <h2>Transkription</h2>
+    <div id="entries"></div>
+    <div class="legend">
+      <strong>Editionszeichen</strong>
+      <dl>
+        <dt><span class="unc">[?]</span></dt><dd>unsichere Lesung des vorangehenden Wortes</dd>
+        <dt><span class="gap">[…]</span></dt><dd>unleserliche Stelle</dd>
+        <dt><span class="unc-word">Wort</span></dt><dd>unsicher ergänzte Lesung</dd>
+        <dt><del>Text</del></dt><dd>im Original gestrichen</dd>
+      </dl>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  Transkription: Arbeitsfassung, Stand Oktober 2026. Zeilentrennung wie im Original. Digitalisat: Nasjonalarkivet / Digitalarkivet.
+</footer>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const $ = id => document.getElementById(id);
+  const stage = $("stage"), svg = $("overlay"), tip = $("tip"), img = $("scan");
+
+  /* Kopf */
+  $("title").textContent = PAGE.title;
+  $("sig").textContent = PAGE.subtitle + " · " + PAGE.signature;
+  img.src = PAGE.image;
+  svg.setAttribute("viewBox", `0 0 ${PAGE.width} ${PAGE.height}`);
+
+  /* Editionszeichen in HTML umsetzen */
+  function esc(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function render(s) {
+    let h = esc(s);
+    h = h.replace(/~~(.+?)~~/g, "<del>$1</del>");
+    h = h.replace(/\[…\]/g, '<span class="gap" title="unleserlich">[…]</span>');
+    h = h.replace(/\[\?\]/g, '<span class="unc" title="unsichere Lesung">[?]</span>');
+    h = h.replace(/\[([^\]\[]+?)\?\]/g, '<span class="unc-word" title="unsicher ergänzt">$1</span>');
+    return h;
+  }
+
+  /* Zeilennummern je Seite */
+  let n = 0;
+  LINES.forEach((l, i) => { l.idx = i; l.no = l.kind ? "" : String(++n); });
+
+  /* Bildzonen */
+  const rects = LINES.map(l => {
+    const [x1, y1, x2, y2] = l.box;
+    const r = document.createElementNS(SVGNS, "rect");
+    r.setAttribute("x", x1); r.setAttribute("y", y1);
+    r.setAttribute("width", x2 - x1); r.setAttribute("height", y2 - y1);
+    r.setAttribute("rx", 4);
+    r.classList.add("zone");
+    r.dataset.idx = l.idx;
+    svg.appendChild(r);
+    return r;
+  });
+
+  /* Lesefassung */
+  const items = [];
+  const wrap = $("entries");
+  ENTRIES.forEach(e => {
+    const sec = document.createElement("section");
+    sec.className = "entry";
+    sec.innerHTML = `<div class="entry-head">${e.date ? `<span class="entry-date">${esc(e.date)}</span>` : ""}<span class="entry-label">${esc(e.label)}</span></div>
+      <p class="regest">${esc(e.regest)}</p><ol class="lines"></ol>`;
+    const ol = sec.querySelector("ol");
+    LINES.filter(l => l.entry === e.id).forEach(l => {
+      const li = document.createElement("li");
+      li.dataset.idx = l.idx;
+      li.innerHTML = `<span class="no">${l.no}</span><span>${l.margin ? `<span class="margin">${esc(l.margin)}</span>` : ""}${render(l.text)}${l.note ? `<span class="note">${esc(l.note)}</span>` : ""}</span>`;
+      ol.appendChild(li);
+      items[l.idx] = li;
+    });
+    wrap.appendChild(sec);
+  });
+
+  /* Hervorhebung */
+  let hover = null, locked = null;
+  function paint() {
+    rects.forEach((r, i) => {
+      r.classList.toggle("active", i === hover);
+      r.classList.toggle("locked", i === locked);
+    });
+    items.forEach((li, i) => {
+      if (!li) return;
+      li.classList.toggle("active", i === hover);
+      li.classList.toggle("locked", i === locked);
+    });
+  }
+
+  function tipHTML(l) {
+    const e = ENTRIES.find(x => x.id === l.entry);
+    const meta = [e && e.date, l.no ? "Zeile " + l.no : (l.kind === "label" ? "Etikett" : l.kind === "title" ? "Titel" : "Kopfzeile")]
+      .filter(Boolean).join(" · ");
+    return `<span class="meta">${esc(meta)}</span>${l.margin ? `<em>${esc(l.margin)}</em> · ` : ""}${render(l.text)}${l.note ? `<span class="note">${esc(l.note)}</span>` : ""}`;
+  }
+
+  function placeTip(cx, cy) {
+    const pad = 16, w = tip.offsetWidth, h = tip.offsetHeight;
+    let x = cx + 18, y = cy + 22;
+    if (x + w > innerWidth - pad) x = Math.max(pad, cx - w - 18);
+    if (y + h > innerHeight - pad) y = Math.max(pad, cy - h - 18);
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  }
+
+  function showTip(l, cx, cy) {
+    tip.innerHTML = tipHTML(l);
+    tip.classList.add("on");
+    placeTip(cx, cy);
+  }
+  function hideTip() { tip.classList.remove("on"); }
+
+  /* Ereignisse im Bild */
+  svg.addEventListener("mousemove", ev => {
+    const r = ev.target.closest("rect.zone");
+    if (!r) { hover = null; paint(); if (locked === null) hideTip(); return; }
+    const i = +r.dataset.idx;
+    if (hover !== i) { hover = i; paint(); }
+    showTip(LINES[i], ev.clientX, ev.clientY);
+  });
+  svg.addEventListener("mouseleave", () => { hover = null; paint(); hideTip(); });
+  svg.addEventListener("click", ev => {
+    const r = ev.target.closest("rect.zone");
+    if (!r) { locked = null; paint(); return; }
+    const i = +r.dataset.idx;
+    locked = (locked === i) ? null : i;
+    paint();
+    if (locked !== null && items[i]) items[i].scrollIntoView({ block: "nearest", behavior: "smooth" });
+    /* Touch: Tooltip am Antippunkt zeigen */
+    if (locked !== null) showTip(LINES[i], ev.clientX, ev.clientY); else hideTip();
+  });
+
+  /* Ereignisse in der Lesefassung */
+  function scrollZoneIntoView(i) {
+    const v = $("viewer"), [x1, y1, x2, y2] = LINES[i].box;
+    const s = stage.offsetWidth / PAGE.width;
+    const top = y1 * s, bottom = y2 * s, left = x1 * s;
+    if (top < v.scrollTop || bottom > v.scrollTop + v.clientHeight) v.scrollTo({ top: top - v.clientHeight / 3, behavior: "smooth" });
+    if (left < v.scrollLeft || left > v.scrollLeft + v.clientWidth) v.scrollTo({ left: left - 40, behavior: "smooth" });
+  }
+  wrap.addEventListener("mouseover", ev => {
+    const li = ev.target.closest("li[data-idx]"); if (!li) return;
+    hover = +li.dataset.idx; paint();
+  });
+  wrap.addEventListener("mouseleave", () => { hover = null; paint(); });
+  wrap.addEventListener("click", ev => {
+    const li = ev.target.closest("li[data-idx]"); if (!li) return;
+    const i = +li.dataset.idx;
+    locked = (locked === i) ? null : i;
+    paint();
+    if (locked !== null) scrollZoneIntoView(i);
+  });
+
+  /* Werkzeugleiste */
+  $("btnLines").addEventListener("click", e => {
+    const on = e.currentTarget.getAttribute("aria-pressed") !== "true";
+    e.currentTarget.setAttribute("aria-pressed", on);
+    stage.classList.toggle("show-lines", on);
+  });
+  document.querySelectorAll("[data-zoom]").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("[data-zoom]").forEach(x => x.setAttribute("aria-pressed", x === b));
+    stage.style.width = (parseFloat(b.dataset.zoom) * 100) + "%";
+  }));
+  $("btnTheme").addEventListener("click", () => {
+    const root = document.documentElement;
+    const dark = root.dataset.theme
+      ? root.dataset.theme === "dark"
+      : matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+  });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { locked = null; paint(); hideTip(); } });
+  $("viewer").addEventListener("scroll", hideTip, { passive: true });
+})();
+</script>
+</body>
+</html>
